@@ -91,5 +91,14 @@ namespace Hierarchical_Agglomerative_Clustering
 
             return average;
         }
+        public static void ShowHelp(Mono.Options.OptionSet p)
+        {
+            Console.WriteLine("Usage: hac.exe [OPTIONS]");
+            Console.WriteLine("Perform Hierarchical Agglomerative Clustering on a given set of data.");
+            Console.WriteLine("The data consists of pairs of coordinates (X and Y) of points in 2D space.");
+            Console.WriteLine();
+            Console.WriteLine("Options:");
+            p.WriteOptionDescriptions(Console.Out);
+        }
     }
 }

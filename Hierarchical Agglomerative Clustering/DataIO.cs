@@ -14,7 +14,7 @@ namespace Hierarchical_Agglomerative_Clustering
             if (!File.Exists(fileName))
             {
                 Console.WriteLine($"[WARNING] File \"{fileName}\" does not exist. Generating random data.");
-                return GenerateData(fileName:@"generatedInput.txt");
+                return GenerateData();
             }
 
             List<Point> loadedList = new List<Point>();
@@ -42,7 +42,7 @@ namespace Hierarchical_Agglomerative_Clustering
 
                 loadedList.Add(new Point(x, y));
 
-                Console.WriteLine($"{x}\t{y}");
+                //Console.WriteLine($"{x}\t{y}"); // DEBUG
             }
 
             return loadedList;
@@ -71,7 +71,6 @@ namespace Hierarchical_Agglomerative_Clustering
                     file.WriteLine();
                 }
             }
-
         }
 
         public List<Point> GenerateData(double minNumber = 0, double maxNumber = 100, int count = 100, string fileName = "")

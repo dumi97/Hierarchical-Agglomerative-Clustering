@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Hierarchical_Agglomerative_Clustering;
 using static Hierarchical_Agglomerative_Clustering.Utils;
 using System.Collections.Generic;
+using System;
 
 namespace Hierarchical_Agglomerative_Clustering_Tests
 {

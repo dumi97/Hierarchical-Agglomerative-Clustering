@@ -8,7 +8,8 @@ namespace Hierarchical_Agglomerative_Clustering
     {
         static void Main(string[] args)
         {
-            bool showHelp = true;
+            // cmd argument variables
+            bool showHelp = false;
             string linkageMethod = "average", distanceMethod = "euclidean2";
             bool generateData = false;
             string generatedFileName = "";
@@ -18,11 +19,11 @@ namespace Hierarchical_Agglomerative_Clustering
             string outputFile = "output.txt";
 
             var p = new OptionSet() {
-                { "l|linkage=", "(string) the linkage method of the algorithm\n" +
+                { "l|linkage=", "(string) the linkage method of the algorithm, which is the criteria of joining two clusters\n" +
                     "possible valuse: minimum, maximum, average\n" +
                     "default: average",
                     (string v) => linkageMethod = v },
-                { "d|distance=", "(string) the distance method of the algorithm\n" +
+                { "d|distance=", "(string) the method of calculating distance between two points in the algorithm\n" +
                     "possible valuse: euclidean, euclidean2 (or euclideansquared), manhattan\n" +
                     "default: euclidean2",
                     (string v) => distanceMethod = v },
@@ -45,12 +46,14 @@ namespace Hierarchical_Agglomerative_Clustering
                     "default: input.txt",
                     (string v) => inputFile = v },
                 { "o|output=", "(string) the output file\n" +
+                    "type \"\" for no output file\n" +
                     "default: output.txt",
                     (string v) => outputFile = v },
                 { "h|help",  "show this message and exit",
                     v => showHelp = v != null },
             };
 
+            // parse and apply cmd arguments
             List<string> extra;
             try
             {
@@ -60,13 +63,21 @@ namespace Hierarchical_Agglomerative_Clustering
             {
                 Console.Write("Hierarchical Agglomerative Clustering: ");
                 Console.WriteLine(e.Message);
-                Console.WriteLine("Try 'hac.exe --help' for more information.");
+                Console.WriteLine("Try 'hac.exe -h' for more information.");
                 return;
+            }
+
+            // handle unknown arguments
+            if(extra.Count != 0)
+            {
+                foreach (string s in extra)
+                    Console.WriteLine($"[WARNING] Unknown argument: {s}");
+                Console.WriteLine($"Try 'hac.exe -h' for a full list of arguments.");
             }
 
             if(showHelp)
             {
-                //TODO
+                Utils.ShowHelp(p);
                 return;
             }
 
@@ -77,15 +88,31 @@ namespace Hierarchical_Agglomerative_Clustering
             // load data
             List<Point> input = null;
             if (generateData)
-                input = dio.GenerateData(minGen, maxGen, genCount, fileName: generatedFileName);
+            {
+                Console.WriteLine("Generating data...");
+                input = dio.GenerateData(minGen, maxGen, genCount, generatedFileName);
+            }
             else
+            {
+                Console.WriteLine($"Loading data from {inputFile}...");
                 input = dio.LoadData(inputFile);
+            }
 
             // cluster data
+            Console.WriteLine("Performing Hierarchical Agglomerative Clustering...");
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             outputList = hac.ClusterData(input, linkageMethod, distanceMethod);
+            watch.Stop();
+            Console.WriteLine($"Done in {watch.ElapsedMilliseconds} milliseconds.");
+
 
             // output data
-            dio.SaveData(outputList, outputFile);
+            if(!outputFile.Equals(""))
+            {
+                Console.WriteLine($"Saving output to {outputFile}...");
+                dio.SaveData(outputList, outputFile);
+            }
+            Console.WriteLine("Finished succesfully.");
         }
     }
 }
