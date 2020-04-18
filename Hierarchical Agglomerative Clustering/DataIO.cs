@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Hierarchical_Agglomerative_Clustering
@@ -49,17 +50,28 @@ namespace Hierarchical_Agglomerative_Clustering
 
         public void SaveData(List<Cluster> data, string fileName = @"output.txt")
         {
-            //TODO
-            /*
+            // create new temp list sorted by cluster size
+            List<Cluster> tmpList = data.OrderBy(o=>o.Size).ToList();
+
             using (StreamWriter file = new StreamWriter(fileName))
             {
-                foreach (Point p in data)
+                int currentSize = 0;
+                foreach (Cluster c in tmpList)
                 {
-                    file.WriteLine($"{p.X.ToString("F6", CultureInfo.InvariantCulture)}\t" +
-                        $"{p.Y.ToString("F6", CultureInfo.InvariantCulture)}");
+                    if(c.Size != currentSize)
+                    {
+                        currentSize = c.Size;
+                        file.WriteLine($"--- {currentSize}");
+                    }
+
+                    file.WriteLine("{");
+                    foreach (Point p in c.Points)
+                        file.WriteLine($"\t{p}");
+                    file.WriteLine("}");
+                    file.WriteLine();
                 }
             }
-            */
+
         }
 
         public List<Point> GenerateData(double minNumber = 0, double maxNumber = 100, int count = 100, string fileName = "")

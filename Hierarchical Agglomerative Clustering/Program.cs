@@ -8,6 +8,7 @@ namespace Hierarchical_Agglomerative_Clustering
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            List<Cluster> outputList;
             DataIO dio = new DataIO();
             HAC hac = new HAC();
 
@@ -15,7 +16,8 @@ namespace Hierarchical_Agglomerative_Clustering
             //testList = dio.LoadData(@"input.txt");
             //dio.SaveData(testList);
 
-            hac.ClusterData(dio.GenerateData());
+            outputList = hac.ClusterData(dio.GenerateData(count:4,fileName:"generated.txt"));
+            dio.SaveData(outputList);
         }
     }
 }
