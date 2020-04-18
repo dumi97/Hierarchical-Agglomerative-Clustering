@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Hierarchical_Agglomerative_Clustering
 {
-    static class Utils
+    public static class Utils
     {
         public static double Distance(Point p1, Point p2, string method = "euclidean2")
         {
-            method = method.Remove(' ').ToLower();
+            method = method.Replace(" ", string.Empty).ToLower();
 
             if (method.Equals("manhattan"))
                 return DistanceManhattan(p1, p2);
@@ -35,7 +35,7 @@ namespace Hierarchical_Agglomerative_Clustering
 
         public static double ClusterDistance(Cluster c1, Cluster c2, string linkageMethod = "average", string distanceMethod = "euclidean2")
         {
-            linkageMethod = linkageMethod.Remove(' ').ToLower();
+            linkageMethod = linkageMethod.Replace(" ", string.Empty).ToLower();
 
             if (linkageMethod.Equals("minimum"))
                 return ClusterDistanceMinimum(c1, c2);
@@ -45,7 +45,7 @@ namespace Hierarchical_Agglomerative_Clustering
             return ClusterDistanceAverage(c1, c2);
         }
 
-        public static double ClusterDistanceMinimum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceMinimum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
         {
             double minimum = Double.MaxValue;
 
@@ -62,7 +62,7 @@ namespace Hierarchical_Agglomerative_Clustering
             return minimum;
         }
 
-        public static double ClusterDistanceMaximum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceMaximum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
         {
             double maximum = 0;
 
@@ -79,7 +79,7 @@ namespace Hierarchical_Agglomerative_Clustering
             return maximum;
         }
 
-        public static double ClusterDistanceAverage(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceAverage(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
         {
             double average = 0;
 

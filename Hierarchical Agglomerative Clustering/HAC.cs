@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Hierarchical_Agglomerative_Clustering
 {
-    class HAC
+    public class HAC
     {
         public List<Point> Points { get; private set; }
 
