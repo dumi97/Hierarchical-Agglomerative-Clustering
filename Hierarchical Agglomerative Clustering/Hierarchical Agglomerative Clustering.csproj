@@ -6,4 +6,8 @@
     <RootNamespace>Hierarchical_Agglomerative_Clustering</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Mono.Options" Version="6.6.0.161" />
+  </ItemGroup>
+
 </Project>
