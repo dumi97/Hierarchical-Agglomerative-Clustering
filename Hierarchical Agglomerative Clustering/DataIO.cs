@@ -47,16 +47,19 @@ namespace Hierarchical_Agglomerative_Clustering
             return loadedList;
         }
 
-        public void SaveData(List<Point> data, string fileName = @"output.txt")
+        public void SaveData(List<Cluster> data, string fileName = @"output.txt")
         {
+            //TODO
+            /*
             using (StreamWriter file = new StreamWriter(fileName))
             {
                 foreach (Point p in data)
                 {
                     file.WriteLine($"{p.X.ToString("F6", CultureInfo.InvariantCulture)}\t" +
-                        $"{p.Y.ToString("F6", CultureInfo.InvariantCulture)}\t{p.Cluster}");
+                        $"{p.Y.ToString("F6", CultureInfo.InvariantCulture)}");
                 }
             }
+            */
         }
 
         public List<Point> GenerateData(double minNumber = 0, double maxNumber = 100, int count = 100, string fileName = "")

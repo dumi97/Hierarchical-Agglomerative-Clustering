@@ -38,16 +38,16 @@ namespace Hierarchical_Agglomerative_Clustering
             linkageMethod = linkageMethod.Replace(" ", string.Empty).ToLower();
 
             if (linkageMethod.Equals("minimum"))
-                return ClusterDistanceMinimum(c1, c2);
+                return ClusterDistanceMinimum(c1, c2, distanceMethod);
             else if (linkageMethod.Equals("maximum"))
-                return ClusterDistanceMaximum(c1, c2);
+                return ClusterDistanceMaximum(c1, c2, distanceMethod);
 
-            return ClusterDistanceAverage(c1, c2);
+            return ClusterDistanceAverage(c1, c2, distanceMethod);
         }
 
-        private static double ClusterDistanceMinimum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceMinimum(Cluster c1, Cluster c2, string distanceMethod)
         {
-            double minimum = Double.MaxValue;
+            double minimum = double.MaxValue;
 
             foreach (Point p1 in c1.Points)
             {
@@ -62,7 +62,7 @@ namespace Hierarchical_Agglomerative_Clustering
             return minimum;
         }
 
-        private static double ClusterDistanceMaximum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceMaximum(Cluster c1, Cluster c2, string distanceMethod)
         {
             double maximum = 0;
 
@@ -79,7 +79,7 @@ namespace Hierarchical_Agglomerative_Clustering
             return maximum;
         }
 
-        private static double ClusterDistanceAverage(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        private static double ClusterDistanceAverage(Cluster c1, Cluster c2, string distanceMethod)
         {
             double average = 0;
 

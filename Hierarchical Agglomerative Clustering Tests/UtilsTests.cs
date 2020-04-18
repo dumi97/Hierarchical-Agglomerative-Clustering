@@ -72,5 +72,34 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
             Assert.AreEqual(expected, ClusterDistance(_c1, _c2, "average"),
                 0.001, "Cluster distance (average linkage) calculated incorrectly");
         }
+
+        [Test]
+        public void ClusterDistanceMinimumManhattanTest()
+        {
+            Assert.AreEqual(Distance(_p3, _p4, "manhattan"), ClusterDistance(_c1, _c2, "minimum", "manhattan"),
+                0.001, "Cluster distance (minimum linkage, manhattan) calculated incorrectly");
+        }
+
+        [Test]
+        public void ClusterDistanceMaximumManhattanTest()
+        {
+            Assert.AreEqual(Distance(_p1, _p6, "manhattan"), ClusterDistance(_c1, _c2, "maximum", "manhattan"),
+                0.001, "Cluster distance (maximum linkage, manhattan) calculated incorrectly");
+        }
+
+        [Test]
+        public void ClusterDistanceAverageManhattanTest()
+        {
+            double expected = 0;
+
+            foreach (Point p1 in _c1.Points)
+                foreach (Point p2 in _c2.Points)
+                    expected += Distance(p1, p2, "manhattan");
+
+            expected /= 3 * 3;
+
+            Assert.AreEqual(expected, ClusterDistance(_c1, _c2, "average", "manhattan"),
+                0.001, "Cluster distance (average linkage, manhattan) calculated incorrectly");
+        }
     }
 }
