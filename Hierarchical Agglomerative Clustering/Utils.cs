@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Hierarchical_Agglomerative_Clustering
+{
+    static class Utils
+    {
+        public static double Distance(Point p1, Point p2, string method = "euclidean2")
+        {
+            method = method.Remove(' ').ToLower();
+
+            if (method.Equals("manhattan"))
+                return DistanceManhattan(p1, p2);
+            else if (method.Equals("euclidean"))
+                return DistanceEuclidean(p1, p2);
+
+            return DistanceEuclideanSquared(p1, p2);
+        }
+
+        private static double DistanceEuclidean(Point p1, Point p2)
+        {
+            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+        }
+
+        private static double DistanceEuclideanSquared(Point p1, Point p2)
+        {
+            return Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2);
+        }
+
+        private static double DistanceManhattan(Point p1, Point p2)
+        {
+            return Math.Abs(p2.X - p1.X) + Math.Abs(p2.Y - p1.Y);
+        }
+
+        public static double ClusterDistance(Cluster c1, Cluster c2, string linkageMethod = "average", string distanceMethod = "euclidean2")
+        {
+            linkageMethod = linkageMethod.Remove(' ').ToLower();
+
+            if (linkageMethod.Equals("minimum"))
+                return ClusterDistanceMinimum(c1, c2);
+            else if (linkageMethod.Equals("maximum"))
+                return ClusterDistanceMaximum(c1, c2);
+
+            return ClusterDistanceAverage(c1, c2);
+        }
+
+        public static double ClusterDistanceMinimum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        {
+            double minimum = Double.MaxValue;
+
+            foreach (Point p1 in c1.Points)
+            {
+                foreach(Point p2 in c2.Points)
+                {
+                    double dist = Distance(p1, p2, distanceMethod);
+                    if (dist < minimum)
+                        minimum = dist;
+                }
+            }
+
+            return minimum;
+        }
+
+        public static double ClusterDistanceMaximum(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        {
+            double maximum = 0;
+
+            foreach (Point p1 in c1.Points)
+            {
+                foreach (Point p2 in c2.Points)
+                {
+                    double dist = Distance(p1, p2, distanceMethod);
+                    if (dist > maximum)
+                        maximum = dist;
+                }
+            }
+
+            return maximum;
+        }
+
+        public static double ClusterDistanceAverage(Cluster c1, Cluster c2, string distanceMethod = "euclidean2")
+        {
+            double average = 0;
+
+            foreach (Point p1 in c1.Points)
+                foreach (Point p2 in c2.Points)
+                    average += Distance(p1, p2, distanceMethod);
+
+            average /= (c1.Size * c2.Size);
+
+            return average;
+        }
+    }
+}

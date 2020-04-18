@@ -6,7 +6,7 @@ namespace Hierarchical_Agglomerative_Clustering
 {
     class HAC
     {
-        public List<Point> Points { get; set; }
+        public List<Point> Points { get; private set; }
 
         public List<Point> ClusterData(List<Point> data)
         {
