@@ -17,6 +17,7 @@ namespace Hierarchical_Agglomerative_Clustering
             int genCount = 6;
             string inputFile = "input.txt";
             string outputFile = "output.txt";
+            bool pause = false;
 
             var p = new OptionSet() {
                 { "l|linkage=", "(string) the linkage method of the algorithm, which is the criteria of joining two clusters\n" +
@@ -49,6 +50,8 @@ namespace Hierarchical_Agglomerative_Clustering
                     "type \"\" for no output file\n" +
                     "default: output.txt",
                     (string v) => outputFile = v },
+                { "p|pause",  "pause when application finished",
+                    v => pause = v != null },
                 { "h|help",  "show this message and exit",
                     v => showHelp = v != null },
             };
@@ -113,6 +116,12 @@ namespace Hierarchical_Agglomerative_Clustering
                 dio.SaveData(outputList, outputFile);
             }
             Console.WriteLine("Finished succesfully.");
+
+            if(pause)
+            {
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey(true);
+            }
         }
     }
 }

@@ -31,8 +31,8 @@ namespace Hierarchical_Agglomerative_Clustering
                 ProgressBarOnBottom = true
             };
 
-            Console.WriteLine();
-            Console.WriteLine();
+            Console.WriteLine('.');
+            Console.WriteLine('.');
             using (var pbar = new ProgressBar(totalTicks, "Clustering progress", options))
             {
                 while (CurrentClusters.Count > 1)
