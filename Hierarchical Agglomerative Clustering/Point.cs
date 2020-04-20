@@ -24,8 +24,8 @@ namespace Hierarchical_Agglomerative_Clustering
 
         public static bool operator ==(Point p1, Point p2)
         {
-            if ((object)p1 == null)
-                return (object)p2 == null;
+            if (p1 is null)
+                return p2 is null;
 
             return p1.Equals(p2);
         }

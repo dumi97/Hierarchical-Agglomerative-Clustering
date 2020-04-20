@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static Hierarchical_Agglomerative_Clustering.Utils;
+using ShellProgressBar;
 
 namespace Hierarchical_Agglomerative_Clustering
 {
@@ -19,8 +20,27 @@ namespace Hierarchical_Agglomerative_Clustering
             foreach (Point p in Points)
                 CurrentClusters.Add(new Cluster(p));
 
-            while (CurrentClusters.Count > 1)
-                MergeClusters(linkageMethod, distanceMethod);
+            // progress bar
+            int totalTicks = CurrentClusters.Count - 1;
+            var options = new ProgressBarOptions
+            {
+                ForegroundColor = ConsoleColor.Gray,
+                ForegroundColorDone = ConsoleColor.Gray,
+                BackgroundColor = ConsoleColor.DarkGray,
+                BackgroundCharacter = '\u2593',
+                ProgressBarOnBottom = true
+            };
+
+            Console.WriteLine();
+            Console.WriteLine();
+            using (var pbar = new ProgressBar(totalTicks, "Clustering progress", options))
+            {
+                while (CurrentClusters.Count > 1)
+                {
+                    MergeClusters(linkageMethod, distanceMethod);
+                    pbar.Tick();
+                }
+            }
 
             FinalClusters.Add(CurrentClusters[0]);
 

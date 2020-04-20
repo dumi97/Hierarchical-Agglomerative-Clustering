@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mono.Options" Version="6.6.0.161" />
+    <PackageReference Include="ShellProgressBar" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
