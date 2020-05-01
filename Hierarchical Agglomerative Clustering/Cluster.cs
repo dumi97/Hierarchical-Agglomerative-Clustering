@@ -43,5 +43,36 @@ namespace Hierarchical_Agglomerative_Clustering
         {
             Points = new List<Point> { p };
         }
+
+        public static bool operator ==(Cluster c1, Cluster c2)
+        {
+            if (c1 is null)
+                return c2 is null;
+
+            return c1.Equals(c2);
+        }
+
+        public static bool operator !=(Cluster c1, Cluster c2)
+        {
+            return !(c1 == c2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            Cluster c2 = (Cluster)obj;
+            List<Point> points2 = c2.Points;
+
+            if (Points.Count != points2.Count)
+                return false;
+
+            foreach (Point p in Points)
+                if (!points2.Contains(p))
+                    return false;
+
+            return true;
+        }
     }
 }

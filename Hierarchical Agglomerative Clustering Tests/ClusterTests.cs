@@ -7,7 +7,7 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
     class ClusterTests
     {
         private Point _p1, _p2, _p3, _p4, _p5, _p6;
-        private Cluster _c1, _c2;
+        private Cluster _c1, _c2, _c3, _c4, _c5, _c6;
         [SetUp]
         public void Setup()
         {
@@ -20,6 +20,10 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
 
             _c1 = new Cluster(new List<Point> { _p1 });
             _c2 = new Cluster(new List<Point> { _p2, _p3 });
+            _c3 = _c1;
+            _c4 = new Cluster(new List<Point> { _p1 });
+            _c5 = new Cluster(new Point(0.6, 0.4));
+            _c6 = new Cluster(new List<Point> { new Point(1.6, 0.4), new Point(2.6, 2.4) });
         }
 
         [Test]
@@ -43,6 +47,21 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
             c = new Cluster(_c1, _c2);
             Assert.AreEqual(3, c.Size, 0.000001, "Cluster join clusters constructor failed");
             Assert.IsTrue(c.Points[0] == _p1 && c.Points[1] == _p2 && c.Points[2] == _p3, "Cluster join clusters constructor failed");
+        }
+
+        [Test]
+        public void ClusterEqualsTest()
+        {
+            Assert.IsFalse(_c1 == _c2, "Clusters should not be equal");
+            Assert.IsFalse(_c1.Equals(_c2), "Clusters should not be equal");
+            Assert.IsTrue(_c1 != _c2, "Clusters should not be equal");
+            Assert.IsTrue(_c1 == _c3, "Clusters should be equal");
+            Assert.IsTrue(_c1 == _c4, "Clusters should be equal");
+            Assert.IsTrue(_c1 == _c5, "Clusters should be equal");
+            Assert.IsTrue(_c3 == _c5, "Clusters should be equal");
+            Assert.IsTrue(_c3 == _c4, "Clusters should be equal");
+            Assert.IsTrue(_c4 == _c5, "Clusters should be equal");
+            Assert.IsTrue(_c2 == _c6, "Clusters should be equal");
         }
     }
 }

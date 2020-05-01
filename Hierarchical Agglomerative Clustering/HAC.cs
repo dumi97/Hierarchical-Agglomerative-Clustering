@@ -11,7 +11,7 @@ namespace Hierarchical_Agglomerative_Clustering
         private List<Cluster> CurrentClusters { get; set; }
         private List<Cluster> FinalClusters { get; set; }
 
-        public List<Cluster> ClusterData(List<Point> data, string linkageMethod = "average", string distanceMethod = "euclidean2")
+        public List<Cluster> ClusterData(List<Point> data, string linkageMethod = "average", string distanceMethod = "euclidean2", int verbosity = 1)
         {
             Points = data;
             CurrentClusters = new List<Cluster>();
@@ -20,27 +20,34 @@ namespace Hierarchical_Agglomerative_Clustering
             foreach (Point p in Points)
                 CurrentClusters.Add(new Cluster(p));
 
-            // progress bar
-            int totalTicks = CurrentClusters.Count - 1;
-            var options = new ProgressBarOptions
+            // variant with writing to console
+            if (verbosity > 0)
             {
-                ForegroundColor = ConsoleColor.Gray,
-                ForegroundColorDone = ConsoleColor.Gray,
-                BackgroundColor = ConsoleColor.DarkGray,
-                BackgroundCharacter = '\u2593',
-                ProgressBarOnBottom = true
-            };
-
-            Console.WriteLine('.');
-            Console.WriteLine('.');
-            using (var pbar = new ProgressBar(totalTicks, "Clustering progress", options))
-            {
-                while (CurrentClusters.Count > 1)
+                // progress bar
+                int totalTicks = CurrentClusters.Count - 1;
+                var options = new ProgressBarOptions
                 {
-                    MergeClusters(linkageMethod, distanceMethod);
-                    pbar.Tick();
+                    ForegroundColor = ConsoleColor.Gray,
+                    ForegroundColorDone = ConsoleColor.Gray,
+                    BackgroundColor = ConsoleColor.DarkGray,
+                    BackgroundCharacter = '\u2593',
+                    ProgressBarOnBottom = true
+                };
+                Console.WriteLine('.');
+                Console.WriteLine('.');
+                using (var pbar = new ProgressBar(totalTicks, "Clustering progress", options))
+                {
+                    while (CurrentClusters.Count > 1)
+                    {
+                        MergeClusters(linkageMethod, distanceMethod);
+                        pbar.Tick();
+                    }
                 }
             }
+            // variant without writing to console
+            else
+                while (CurrentClusters.Count > 1)
+                    MergeClusters(linkageMethod, distanceMethod);
 
             FinalClusters.Add(CurrentClusters[0]);
 
