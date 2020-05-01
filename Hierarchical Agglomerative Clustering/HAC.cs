@@ -10,9 +10,11 @@ namespace Hierarchical_Agglomerative_Clustering
         private List<Point> Points { get; set; }
         private List<Cluster> CurrentClusters { get; set; }
         private List<Cluster> FinalClusters { get; set; }
+        private Dictionary<Cluster, Dictionary<Cluster, double>> distanceMatrix;
 
         public List<Cluster> ClusterData(List<Point> data, string linkageMethod = "average", string distanceMethod = "euclidean2", int verbosity = 1)
         {
+            distanceMatrix = new Dictionary<Cluster, Dictionary<Cluster, double>>();
             Points = data;
             CurrentClusters = new List<Cluster>();
             FinalClusters = new List<Cluster>();
@@ -58,12 +60,28 @@ namespace Hierarchical_Agglomerative_Clustering
         {
             double minDist = double.MaxValue;
             Cluster minClust1 = null, minClust2 = null;
+            bool buildInitialMatrix = false;
+
+            if(distanceMatrix.Count == 0)
+                buildInitialMatrix = true;
 
             for(int i = 0; i < CurrentClusters.Count; ++i)
             {
-                for(int j = i+1; j < CurrentClusters.Count; ++j)
+                Cluster c1 = CurrentClusters[i];
+
+                if(buildInitialMatrix)
+                    distanceMatrix[c1] = new Dictionary<Cluster, double>();
+
+                for (int j = i+1; j < CurrentClusters.Count; ++j)
                 {
-                    double dist = ClusterDistance(CurrentClusters[i], CurrentClusters[j], linkageMethod, distanceMethod);
+                    Cluster c2 = CurrentClusters[j];
+                    double dist;
+
+                    if (buildInitialMatrix)
+                        dist = distanceMatrix[c1][c2] = ClusterDistance(CurrentClusters[i], CurrentClusters[j], linkageMethod, distanceMethod);
+                    else
+                        dist = distanceMatrix[CurrentClusters[i]][CurrentClusters[j]];
+
                     if (dist < minDist)
                     {
                         minDist = dist;
@@ -79,11 +97,23 @@ namespace Hierarchical_Agglomerative_Clustering
                 return;
             }
 
+            Cluster newCluster = new Cluster(minClust1, minClust2);
+
             FinalClusters.Add(minClust1);
             FinalClusters.Add(minClust2);
-            CurrentClusters.Add(new Cluster(minClust1, minClust2));
+            
             CurrentClusters.Remove(minClust1);
             CurrentClusters.Remove(minClust2);
+
+            // update distance matrix and add new cluster to current clusters
+            distanceMatrix.Remove(minClust1);
+            distanceMatrix.Remove(minClust2);
+
+            foreach(Cluster c in CurrentClusters)
+                distanceMatrix[c][newCluster] = ClusterDistance(c, newCluster, linkageMethod, distanceMethod);
+
+            distanceMatrix[newCluster] = new Dictionary<Cluster, double>();
+            CurrentClusters.Add(newCluster);
         }
     }
 }
