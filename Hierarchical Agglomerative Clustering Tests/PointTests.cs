@@ -20,8 +20,8 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
         {
             Point p = new Point(2.5, 3.6);
 
-            Assert.AreEqual(2.5, p.X, 0.001, "Point created with incorrect X value");
-            Assert.AreEqual(3.6, p.Y, 0.001, "Point created with incorrect Y value");
+            Assert.AreEqual(2.5, p.Dimensions[0], 0.001, "Point created with incorrect X value");
+            Assert.AreEqual(3.6, p.Dimensions[1], 0.001, "Point created with incorrect Y value");
         }
 
         [Test]

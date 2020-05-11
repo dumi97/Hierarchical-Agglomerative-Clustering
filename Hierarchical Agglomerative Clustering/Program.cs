@@ -14,7 +14,7 @@ namespace Hierarchical_Agglomerative_Clustering
             bool generateData = false;
             string generatedFileName = "";
             double minGen = 0, maxGen = 100;
-            int genCount = 6;
+            int genCount = 6, genDims = 4;
             string inputFile = "input.txt";
             string outputFile = "output.txt";
             bool pause = false;
@@ -43,6 +43,9 @@ namespace Hierarchical_Agglomerative_Clustering
                 { "c|generatedCount=", "(int) how many data point to generate\n" +
                     "default: 6",
                     (int v) => genCount = v },
+                { "e|generatedDimensions=", "(int) how many dimensions should the generated point have\n" +
+                    "default: 4",
+                    (int v) => genDims = v },
                 { "i|input=", "(string) the input file\n" +
                     "default: input.txt",
                     (string v) => inputFile = v },
@@ -93,12 +96,14 @@ namespace Hierarchical_Agglomerative_Clustering
             if (generateData)
             {
                 Console.WriteLine("Generating data...");
-                input = dio.GenerateData(minGen, maxGen, genCount, generatedFileName);
+                input = dio.GenerateData(minGen, maxGen, genCount, genDims, generatedFileName);
             }
             else
             {
                 Console.WriteLine($"Loading data from {inputFile}...");
                 input = dio.LoadData(inputFile);
+                if (input.Count == 0)
+                    return;
             }
 
             // cluster data

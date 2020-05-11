@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Text;
 
@@ -7,19 +8,30 @@ namespace Hierarchical_Agglomerative_Clustering
 {
     public class Point
     {
-        public double X { get; }
-        public double Y { get; }
+        public List<double> Dimensions { get; private set; }
 
-        public Point(double x = 0, double y = 0)
+        public Point(params double[] dims)
         {
-            X = x;
-            Y = y;
+            Dimensions = new List<double>();
+            foreach (double d in dims)
+                Dimensions.Add(d);
+        }
+
+        public Point(List<double> dims)
+        {
+            Dimensions = dims;
         }
 
         public Point(Point p)
         {
-            X = p.X;
-            Y = p.Y;
+            Dimensions = new List<double>();
+            foreach (double d in p.Dimensions)
+                Dimensions.Add(d);
+        }
+
+        public int GetDimenstions()
+        {
+            return Dimensions.Count;
         }
 
         public static bool operator ==(Point p1, Point p2)
@@ -41,18 +53,29 @@ namespace Hierarchical_Agglomerative_Clustering
                 return false;
 
             Point p2 = (Point)obj;
-            return (X == p2.X && Y == p2.Y);
+
+            if (GetDimenstions() != p2.GetDimenstions())
+                return false;
+
+            for (int i = 0; i < GetDimenstions(); ++i)
+                if (p2.Dimensions[i] != Dimensions[i])
+                    return false;
+
+            return true;
         }
 
         public override int GetHashCode()
         {
-            return X.GetHashCode() ^ Y.GetHashCode();
+            return HashCode.Combine(Dimensions);
         }
 
         public override string ToString()
         {
-            return $"{X.ToString("F6", CultureInfo.InvariantCulture)}\t" +
-                        $"{Y.ToString("F6", CultureInfo.InvariantCulture)}";
+            string output = "";
+            foreach (double d in Dimensions)
+                output += $"{d.ToString("F6", CultureInfo.InvariantCulture)}\t";
+
+            return output.Trim();
         }
     }
 }

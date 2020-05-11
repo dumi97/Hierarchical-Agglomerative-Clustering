@@ -22,27 +22,39 @@ namespace Hierarchical_Agglomerative_Clustering
             string[] coords = File.ReadAllText(fileName)
                 .Split(delims, StringSplitOptions.RemoveEmptyEntries);
 
+            if (!int.TryParse(coords[0], out int dimNum))
+            {
+                Console.WriteLine("[ERROR] Could not read number of dimensions");
+                Environment.Exit(1);
+            }
+
+            if( (coords.Length - 1) % dimNum != 0)
+            {
+                Console.WriteLine($"[ERROR] The number of total parameters present in {fileName} does not match the defined number of dimensions");
+                Environment.Exit(1);
+                return loadedList;
+            }
+
             // create point from coords
             // if number of coords not even - omit last coord
-            for (int i = 0; i < coords.Length-1; i+=2)
+            for (int i = 1; i < coords.Length-1; i+= dimNum)
             {
-                double x, y;
+                List<double> dims = new List<double>();
 
-                if (!double.TryParse(coords[i], NumberStyles.Float, CultureInfo.InvariantCulture, out x))
+                for (int j = 0; j < dimNum; ++j)
                 {
-                    Console.WriteLine($"[ERROR] Could not parse x coord at index {i}");
-                    x = 0;
+                    if (!double.TryParse(coords[i+j], NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
+                    {
+                        Console.WriteLine($"[WARNING] Could not parse dimension at index {i - 1 + j}, assuming 0.0");
+                        d = 0;
+                    }
+                    dims.Add(d);
                 }
-                    
-                if (!double.TryParse(coords[i + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out y))
-                {
-                    Console.WriteLine($"[ERROR] Could not parse y coord at index {i+1}");
-                    y = 0;
-                } 
 
-                loadedList.Add(new Point(x, y));
+                Point p = new Point(dims);
+                loadedList.Add(p);
 
-                //Console.WriteLine($"{x}\t{y}"); // DEBUG
+                Console.WriteLine(p); // DEBUG
             }
 
             return loadedList;
@@ -73,7 +85,7 @@ namespace Hierarchical_Agglomerative_Clustering
             }
         }
 
-        public List<Point> GenerateData(double minNumber = 0, double maxNumber = 100, int count = 100, string fileName = "")
+        public List<Point> GenerateData(double minNumber = 0, double maxNumber = 100, int count = 100, int dimensions = 4, string fileName = "")
         {
             StreamWriter file = null;
             if(!fileName.Equals(""))
@@ -81,17 +93,18 @@ namespace Hierarchical_Agglomerative_Clustering
 
             List<Point> generatedList = new List<Point>();
             Random random = new Random();
-            double x, y;
 
             for (int i = 0; i < count; ++i)
             {
-                x = random.NextDouble() * (maxNumber - minNumber) + minNumber;
-                y = random.NextDouble() * (maxNumber - minNumber) + minNumber;
-                generatedList.Add(new Point(x, y));
+                List<double> dims = new List<double>();
+                for (int j = 0; j < dimensions; ++j)
+                    dims.Add(random.NextDouble() * (maxNumber - minNumber) + minNumber);
+
+                Point p = new Point(dims);
+                generatedList.Add(p);
 
                 if (file != null)
-                    file.WriteLine($"{x.ToString("F6", CultureInfo.InvariantCulture)}\t" +
-                        $"{y.ToString("F6", CultureInfo.InvariantCulture)}");
+                    file.WriteLine(p);
             }
 
             if (file != null)

@@ -74,5 +74,10 @@ namespace Hierarchical_Agglomerative_Clustering
 
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Points);
+        }
     }
 }

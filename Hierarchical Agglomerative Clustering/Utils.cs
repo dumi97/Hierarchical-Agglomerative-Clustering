@@ -8,6 +8,12 @@ namespace Hierarchical_Agglomerative_Clustering
     {
         public static double Distance(Point p1, Point p2, string method = "euclidean2")
         {
+            if(p1.GetDimenstions() != p2.GetDimenstions())
+            {
+                Console.WriteLine("[ERROR] Calculating distance for points with different number of dimensions");
+                return double.MaxValue;
+            }
+
             method = method.Replace(" ", string.Empty).ToLower();
 
             if (method.Equals("manhattan"))
@@ -20,17 +26,29 @@ namespace Hierarchical_Agglomerative_Clustering
 
         private static double DistanceEuclidean(Point p1, Point p2)
         {
-            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+            double distance = 0;
+            for (int i = 0; i < p1.GetDimenstions(); ++i)
+                distance += Math.Pow(p2.Dimensions[i] - p1.Dimensions[i], 2);
+
+            return Math.Sqrt(distance);
         }
 
         private static double DistanceEuclideanSquared(Point p1, Point p2)
         {
-            return Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2);
+            double distance = 0;
+            for (int i = 0; i < p1.GetDimenstions(); ++i)
+                distance += Math.Pow(p2.Dimensions[i] - p1.Dimensions[i], 2);
+
+            return distance;
         }
 
         private static double DistanceManhattan(Point p1, Point p2)
         {
-            return Math.Abs(p2.X - p1.X) + Math.Abs(p2.Y - p1.Y);
+            double distance = 0;
+            for (int i = 0; i < p1.GetDimenstions(); ++i)
+                distance += Math.Abs(p2.Dimensions[i] - p1.Dimensions[i]);
+
+            return distance;
         }
 
         public static double ClusterDistance(Cluster c1, Cluster c2, string linkageMethod = "average", string distanceMethod = "euclidean2")
