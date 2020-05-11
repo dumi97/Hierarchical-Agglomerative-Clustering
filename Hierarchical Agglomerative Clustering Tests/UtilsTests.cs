@@ -8,7 +8,7 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
 {
     public class UtilsTests
     {
-        private Point _p1, _p2, _p3, _p4, _p5, _p6;
+        private Point _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8;
         private Cluster _c1, _c2; 
         [SetUp]
         public void Setup()
@@ -19,6 +19,8 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
             _p4 = new Point(3.6, 2.6);
             _p5 = new Point(4.6, 0.4);
             _p6 = new Point(5.6, 0.6);
+            _p7 = new Point(2.5, 2.5, 2.5);
+            _p8 = new Point(-2.5, -2.5, -2.5);
 
             _c1 = new Cluster(new List<Point> { _p1, _p2, _p3 });
             _c2 = new Cluster(new List<Point> { _p4, _p5, _p6 });
@@ -29,6 +31,7 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
         {
             Assert.AreEqual(1.0, Distance(_p1, _p2, "manhattan"), 0.001, "Manhattan distance calculated incorrectly");
             Assert.AreEqual(5.2, Distance(_p1, _p4, "manhattan"), 0.001, "Manhattan distance calculated incorrectly");
+            Assert.AreEqual(15, Distance(_p7, _p8, "manhattan"), 0.001, "Manhattan distance calculated incorrectly");
         }
 
         [Test]
@@ -36,6 +39,7 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
         {
             Assert.AreEqual(1.0, Distance(_p1, _p2, "euclidean"), 0.001, "Euclidean distance calculated incorrectly");
             Assert.AreEqual(3.72022, Distance(_p1, _p4, "euclidean"), 0.00001, "Euclidean distance calculated incorrectly");
+            Assert.AreEqual(8.660254, Distance(_p7, _p8, "euclidean"), 0.000001, "Euclidean distance calculated incorrectly");
         }
 
         [Test]
@@ -43,6 +47,7 @@ namespace Hierarchical_Agglomerative_Clustering_Tests
         {
             Assert.AreEqual(1.0, Distance(_p1, _p2, "euclidean2"), 0.001, "Euclidean squared distance calculated incorrectly");
             Assert.AreEqual(13.84, Distance(_p1, _p4, "euclidean2"), 0.001, "Euclidean squared distance calculated incorrectly");
+            Assert.AreEqual(74.999999344516, Distance(_p7, _p8, "euclidean2"), 0.000001, "Euclidean squared distance calculated incorrectly");
         }
 
         [Test]
