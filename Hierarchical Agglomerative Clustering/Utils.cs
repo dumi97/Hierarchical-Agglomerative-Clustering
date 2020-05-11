@@ -111,7 +111,7 @@ namespace Hierarchical_Agglomerative_Clustering
         {
             Console.WriteLine("Usage: hac.exe [OPTIONS]");
             Console.WriteLine("Perform Hierarchical Agglomerative Clustering on a given set of data.");
-            Console.WriteLine("The data consists of pairs of coordinates (X and Y) of points in 2D space.");
+            Console.WriteLine("The data consists of sets of coordinates of points in multidimensional space.");
             Console.WriteLine();
             Console.WriteLine("Options:");
             p.WriteOptionDescriptions(Console.Out);
