@@ -94,6 +94,9 @@ namespace Hierarchical_Agglomerative_Clustering
             List<Point> generatedList = new List<Point>();
             Random random = new Random();
 
+            if (file != null)
+                file.WriteLine(dimensions);
+
             for (int i = 0; i < count; ++i)
             {
                 List<double> dims = new List<double>();
