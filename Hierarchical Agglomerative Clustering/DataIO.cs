@@ -52,8 +52,6 @@ namespace Hierarchical_Agglomerative_Clustering
 
                 Point p = new Point(dims);
                 loadedList.Add(p);
-
-                Console.WriteLine(p); // DEBUG
             }
 
             return loadedList;
