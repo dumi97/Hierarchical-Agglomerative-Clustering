@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Hierarchical_Agglomerative_Clustering
 {
-    public class Point
+    public class Point : IComparable
     {
         public List<double> Dimensions { get; private set; }
 
@@ -86,6 +86,12 @@ namespace Hierarchical_Agglomerative_Clustering
                 output += $"{d.ToString("F6", CultureInfo.InvariantCulture)}\t";
 
             return output.Trim();
+        }
+
+        public int CompareTo(object obj)
+        {
+            Point p = (Point)obj;
+            return string.Compare(ToString(), p.ToString());
         }
     }
 }

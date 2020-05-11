@@ -28,23 +28,33 @@ namespace Hierarchical_Agglomerative_Clustering
 
             foreach (Point p in c2.Points)
                 Points.Add(new Point(p));
+
+            SortPoints();
         }
 
         public Cluster(List<Point> pl)
         {
             Points = pl;
+            SortPoints();
         }
 
         public Cluster (Point[] ap)
         {
             Points = new List<Point>(ap);
+            SortPoints();
         }
 
         public Cluster(Point p)
         {
             Points = new List<Point> { p };
+            SortPoints();
         }
         #endregion
+
+        private void SortPoints()
+        {
+            Points.Sort();
+        }
 
         #region Equality
         public static bool operator ==(Cluster c1, Cluster c2)
