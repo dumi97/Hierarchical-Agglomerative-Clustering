@@ -13,6 +13,7 @@ namespace Hierarchical_Agglomerative_Clustering
             get => Points.Count;
         }
 
+        #region Constructors
         public Cluster()
         {
             Points = new List<Point>();
@@ -43,7 +44,9 @@ namespace Hierarchical_Agglomerative_Clustering
         {
             Points = new List<Point> { p };
         }
+        #endregion
 
+        #region Equality
         public static bool operator ==(Cluster c1, Cluster c2)
         {
             if (c1 is null)
@@ -77,7 +80,14 @@ namespace Hierarchical_Agglomerative_Clustering
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Points);
+            unchecked
+            {
+                int hash = 23;
+                foreach (Point p in Points)
+                    hash = (hash * 373) ^ p.GetHashCode();
+                return hash;
+            }
         }
+        #endregion
     }
 }

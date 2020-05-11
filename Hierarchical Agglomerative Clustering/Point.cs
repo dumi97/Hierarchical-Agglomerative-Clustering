@@ -10,6 +10,7 @@ namespace Hierarchical_Agglomerative_Clustering
     {
         public List<double> Dimensions { get; private set; }
 
+        #region Constructors
         public Point(params double[] dims)
         {
             Dimensions = new List<double>();
@@ -28,12 +29,14 @@ namespace Hierarchical_Agglomerative_Clustering
             foreach (double d in p.Dimensions)
                 Dimensions.Add(d);
         }
+        #endregion
 
         public int GetDimenstions()
         {
             return Dimensions.Count;
         }
 
+        #region Equality
         public static bool operator ==(Point p1, Point p2)
         {
             if (p1 is null)
@@ -66,8 +69,15 @@ namespace Hierarchical_Agglomerative_Clustering
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Dimensions);
+            unchecked
+            {
+                int hash = 13;
+                foreach (double d in Dimensions)
+                    hash = (hash * 397) ^ d.GetHashCode();
+                return hash;
+            }
         }
+        #endregion
 
         public override string ToString()
         {
