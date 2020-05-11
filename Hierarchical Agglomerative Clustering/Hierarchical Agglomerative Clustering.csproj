@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Hierarchical_Agglomerative_Clustering</RootNamespace>
     <AssemblyName>hac</AssemblyName>
+    <StartupObject>Hierarchical_Agglomerative_Clustering.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
