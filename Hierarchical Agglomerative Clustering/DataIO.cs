@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hierarchical_Agglomerative_Clustering
 {
-    class DataIO
+    public class DataIO
     {
         public List<Point> LoadData(string fileName)
         {

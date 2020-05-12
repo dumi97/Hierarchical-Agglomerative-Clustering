@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hierarchical Agglomerative Clustering", "Hierarchical Agglomerative Clustering\Hierarchical Agglomerative Clustering.csproj", "{3FEE073E-981E-4E41-82A1-96610889F39A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hierarchical Agglomerative Clustering Tests", "Hierarchical Agglomerative Clustering Tests\Hierarchical Agglomerative Clustering Tests.csproj", "{DE5EA429-6FB5-447B-969F-6426984AA65F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hierarchical Agglomerative Clustering Tests", "Hierarchical Agglomerative Clustering Tests\Hierarchical Agglomerative Clustering Tests.csproj", "{DE5EA429-6FB5-447B-969F-6426984AA65F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAC Benchmark", "HAC Benchmark\HAC Benchmark.csproj", "{32DE2568-C331-4DD5-9083-CD58356C1253}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DE5EA429-6FB5-447B-969F-6426984AA65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5EA429-6FB5-447B-969F-6426984AA65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE5EA429-6FB5-447B-969F-6426984AA65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32DE2568-C331-4DD5-9083-CD58356C1253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32DE2568-C331-4DD5-9083-CD58356C1253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32DE2568-C331-4DD5-9083-CD58356C1253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32DE2568-C331-4DD5-9083-CD58356C1253}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
