@@ -12,11 +12,11 @@ namespace HAC_Benchmark
         {
             int[] counts = { 10, 50, 100, 500, 1000};
             int[] dims = { 5, 10, 50, 100};
-            RunBenchmark(counts, dims, 5);
+            RunBenchmark(counts, dims, 5, createFiles:true);
 
         }
 
-        static void RunBenchmark(int[] pointCounts, int[] pointDims, int averageOf, string linkageMethod = "average", string distanceMethod = "euclideansquared", string resultFilename = "benchmark_results.txt")
+        static void RunBenchmark(int[] pointCounts, int[] pointDims, int averageOf, string linkageMethod = "average", string distanceMethod = "euclideansquared", bool createFiles = false, string resultFilename = "benchmark_results.txt")
         {
             string startupMessage = $"Clustering benchmark with parameters: averageOf={averageOf}," +
                 $" linkageMethod=\"{linkageMethod}\", distanceMethod=\"{distanceMethod}\"";
@@ -35,13 +35,19 @@ namespace HAC_Benchmark
                         long result = 0;
                         for(int i = 0; i < averageOf; ++i)
                         {
+                            string inputFilename = createFiles ? $"testGenerated-{count}-{dim}-{i}.txt" : "";
+                            string outputFilename = createFiles ? $"testOutput-{count}-{dim}-{i}.txt" : "";
+
                             Console.WriteLine($"Now clustering: {count}-{dim}-{i}...");
                             Stopwatch watch = new Stopwatch();
-                            List<Point> input = dio.GenerateData(-1000000, 1000000, count, dim);
+                            List<Point> input = dio.GenerateData(-1000000, 1000000, count, dim, inputFilename);
                             watch.Start();
-                            hac.ClusterData(input, "average", "euclidean2", 0);
+                            List<Cluster> output = hac.ClusterData(input, "average", "euclidean2", 0);
                             watch.Stop();
+
                             result += watch.ElapsedMilliseconds;
+                            if (createFiles)
+                                dio.SaveData(output, outputFilename);
                         }
                         result /= averageOf;
                         file.WriteLine($"{count} points, {dim} dimensions = {result} milliseconds");
